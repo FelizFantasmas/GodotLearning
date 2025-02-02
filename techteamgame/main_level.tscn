@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://bajbf65u3wcl"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_4xkfp"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_exd46"]
+height = 2.25
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rxg0g"]
+
+[sub_resource type="Environment" id="Environment_kc6uu"]
+background_mode = 1
+background_color = Color(6.93083e-06, 0.769154, 0.888955, 1)
+ambient_light_source = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l05f3"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6vvfh"]
+size = Vector3(60, 2, 60)
+
+[node name="MainLevel" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49982, 0)
+script = ExtResource("1_4xkfp")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00708222, 0.578463, 0.00818992)
+mesh = SubResource("CapsuleMesh_exd46")
+
+[node name="BodyColl" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0.745894, 0)
+shape = SubResource("CapsuleShape3D_rxg0g")
+
+[node name="CamOrigin" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32901, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CamOrigin"]
+spring_length = 3.0
+margin = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="Player/CamOrigin/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.730687, 0.682713, 0, -0.682713, 0.730687, 0, 4.44534, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kc6uu")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_l05f3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_6vvfh")
